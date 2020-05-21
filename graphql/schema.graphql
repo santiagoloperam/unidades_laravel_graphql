@@ -1,0 +1,131 @@
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"A datetime and timezone string in ISO 8601 format `Y-m-dTH:i:sO`, e.g. `2020-04-20T13:53:12+02:00`."
+scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTimeTz")
+
+type Mutation
+
+type Query {
+  users: [User!]! @paginate(defaultCount: 10)
+  user(id: ID @eq): User @find
+
+  tipoUsuarios: [TipoUsuario!]! @paginate(defaultCount: 10)
+  tipoUsuario (id: ID @eq): TipoUsuario @find
+     
+  unidades: [Unidade!]! @paginate(defaultCount: 10)
+  unidade(id: ID @eq): Unidade @find
+
+  bloques: [Bloque!]! @paginate(defaultCount: 10)
+  bloque(id: ID @eq): Bloque @find
+      
+  aptos: [Apto!]! @paginate(defaultCount: 10)
+  apto(id: ID @eq): Apto @find
+      
+  tipoAptos: [TipoApto!]! @paginate(defaultCount: 10)
+  tipoApto(id: ID @eq): TipoApto @find
+}
+
+type User {
+    id: ID!
+    name: String!
+    last_name: String!
+    email: String!
+    dni: String!
+    telefono: String!
+    email_verified_at: DateTime
+    password: String!
+    active: Boolean!
+    tipo_usuario_id: Int!
+    admin_id:Int!
+    tipo: TipoUsuario! @belongsTo(relation: "tipo_usuario")
+    admin: User! @belongsTo(relation: "admin")
+    created_at: DateTime
+    updated_at: DateTime
+}
+
+type TipoUsuario {
+    id: ID!
+    tipo_usuarios: String!
+    users: [User!]! @hasMany(relation: "users")
+  }
+
+type Unidade {
+    id: ID!
+    nombre: String!
+    direccion: String!
+    telefono: String!
+    active: Boolean!    
+    admin: User! @belongsTo(relation: "admin")
+    #aptos: [Apto!]! @hasMany(relation: "aptos")
+    #bloques: [Bloque!]! @hasMany(relation: "bloques")
+  }
+
+  type Bloque {
+    id: ID!
+    nombre: String!
+    unidad: Unidade! @belongsTo(relation: "unidad")
+    #aptos: [Apto!]! @hasMany(relation: "aptos")
+  }
+
+  type Apto {
+    id: ID!
+    nomenclatura: String!
+    unidad: Unidade! @belongsTo(relation: "unidad")
+    bloque: Bloque! @belongsTo(relation: "bloque")
+    tipoapto: TipoApto! @belongsTo(relation: "tipoapto")
+    propietario: User! @belongsTo(relation: "propietario")
+    arrendatario: User @belongsTo(relation: "arrendatario")
+  }
+
+   type TipoApto {
+    id: ID!
+    tipo_apto: String!
+    cobro: Float!
+    vigencia: Int!
+    metros: Int!
+    unidad: Unidade! @belongsTo(relation: "unidad")
+    #aptos: [Aptos!]! @hasMany(relation: "aptos")
+  } 
+
+
+ type Mutation {
+
+    updateUser(
+    	id: ID!, 
+    	name: String, 
+    	last_name: String, 
+    	email: String, 
+    	dni: String, 
+    	telefono: String,  
+    	password: String, 
+    	active: Boolean, 
+    	tipo_usuario_id: ID,
+    	admin_id:Int) : User @update
+
+    createUser(
+    	name: String!, 
+    	last_name: String!, 
+    	email: String!, 
+    	dni: String!, 
+    	telefono: String!,  
+    	password: String!, 
+    	active: Boolean!, 
+    	tipo_usuario_id: ID!,
+    	admin_id: ID!) : User! @create
+
+    deleteUser(id: ID!) : User! @delete
+
+    updateTipoUsuario(
+    	id: ID!, 
+     	tipo_usuarios: String) : TipoUsuario @update
+
+    createTipoUsuario(tipo_usuarios: String) : TipoUsuario! @create
+
+    deleteTipoUsuario(id: ID!) : TipoUsuario! @delete
+
+
+}
