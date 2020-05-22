@@ -47,28 +47,29 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function tipo_usuario()
+    public function tipo_usuario(): BelongsTo
     {
         return $this->belongsTo(TipoUsuario::class,'tipo_usuario_id');
     }
 
-    public function unidad()
+    public function unidad(): BelongsTo
     {
         return $this->belongsTo(Unidade::class,'unidade_id');
     }
 
-    public function bloques()
+    public function bloques(): HasMany
     {
         return $this->hasManyThrough('Bloque', 'Unidade', 'admin_id', 'unidade_id');
     }
 
-    public function admin()
+    public function admin(): BelongsTo
     {
         return $this->belongsTo(this::class, 'admin_id');
     }
 
-    /*public function unidades_admin(){
-        return $this->hasMany(Unidade::class);
-    }*/
+    public function unidades_admin():HasMany
+    {
+        return $this->hasMany(Unidade::class, "admin_id");
+    }
 
 }

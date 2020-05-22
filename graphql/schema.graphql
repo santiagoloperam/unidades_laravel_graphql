@@ -43,6 +43,7 @@ type User {
     admin_id:Int!
     tipo: TipoUsuario! @belongsTo(relation: "tipo_usuario")
     admin: User! @belongsTo(relation: "admin")
+    unidades_admin: [Unidade] @hasMany(relation: "unidades_admin")
     created_at: DateTime
     updated_at: DateTime
 }
@@ -60,15 +61,15 @@ type Unidade {
     telefono: String!
     active: Boolean!    
     admin: User! @belongsTo(relation: "admin")
-    #aptos: [Apto!]! @hasMany(relation: "aptos")
-    #bloques: [Bloque!]! @hasMany(relation: "bloques")
+    aptos: [Apto!]! @hasMany(relation: "aptos")
+    bloques: [Bloque!]! @hasMany(relation: "bloques")
   }
 
   type Bloque {
     id: ID!
     nombre: String!
     unidad: Unidade! @belongsTo(relation: "unidad")
-    #aptos: [Apto!]! @hasMany(relation: "aptos")
+    aptos: [Apto!]! @hasMany(relation: "aptos")
   }
 
   type Apto {
@@ -88,7 +89,7 @@ type Unidade {
     vigencia: Int!
     metros: Int!
     unidad: Unidade! @belongsTo(relation: "unidad")
-    #aptos: [Aptos!]! @hasMany(relation: "aptos")
+    aptos: [Apto!]! @hasMany(relation: "aptos")
   } 
 
 
@@ -126,6 +127,72 @@ type Unidade {
     createTipoUsuario(tipo_usuarios: String) : TipoUsuario! @create
 
     deleteTipoUsuario(id: ID!) : TipoUsuario! @delete
+
+
+    updateUnidad(
+    	id: ID!, 
+    	nombre: String, 
+    	direccion: String, 
+    	telefono: String, 
+    	admin_id: Int, 
+    	active: Boolean) : Unidade! @update
+
+    createUnidad(
+    	nombre: String, 
+    	direccion: String, 
+    	telefono: String, 
+    	admin_id: Int, 
+    	active: Boolean) : Unidade! @create
+
+    deleteUnidad(id: ID!) : Unidade! @delete
+    
+    updateBloque(
+    	id: ID!, 
+    	nombre: String, 
+    	unidad_id: Int) : Bloque! @update
+
+    createBloque(
+    	nombre: String, 
+    	unidad_id: Int) : Bloque! @create
+
+    deleteBloque(id: ID!) : Bloque! @delete
+
+    updateApto(
+    	id: ID!, 
+    	nomenclatura: String, 
+    	unidad_id: Int, 
+    	bloque_id: Int, 
+    	tipo_apto_id: Int, 
+    	propietario_id: Int,  
+    	arrendatario_id: Int) : Apto! @update
+
+    createApto(
+    	nomenclatura: String, 
+    	unidad_id: Int, 
+    	bloque_id: Int, 
+    	tipo_apto_id: Int, 
+    	propietario_id: Int,  
+    	arrendatario_id: Int) : Apto! @create
+
+    deleteApto(id: ID!) : Apto! @delete
+
+    
+    updateTipoApto(
+    	id: ID!, 
+    	tipo_apto: String, 
+    	cobro: Float, 
+    	igencia: Int, 
+    	metros: Int, 
+    	unidad_id: Int) : TipoApto! @update
+
+    createTipoApto(
+    	tipo_apto: String, 
+    	cobro: Float, 
+    	vigencia: Int, 
+    	metros: Int, 
+    	unidad_id: Int) : TipoApto! @create
+
+    deleteTipoApto(id: ID!) : TipoApto! @delete
 
 
 }

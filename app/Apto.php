@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 use App\Unidade;
 use App\TipoApto;
 use App\User;
@@ -15,30 +18,30 @@ class Apto extends Model
         'nomenclatura','unidad_id','bloque_id','tipo_apto_id','propietario_id','arrendatario_id','admin_id'
     ];
 
-    public function admin()
+    public function admin():BelongsTo
     {
        return $this->belongsTo(User::class,'admin_id');
     }
-    public function unidad()
+    public function unidad():BelongsTo
     {
        return $this->belongsTo(Unidade::class,'unidad_id');
     }
-    public function tipoapto()
+    public function tipoapto():BelongsTo
     {
        return $this->belongsTo(TipoApto::class,'tipo_apto_id');
     }
 
-    public function bloque()
+    public function bloque():BelongsTo
     {
        return $this->belongsTo(Bloque::class,'bloque_id');
     }
 
-    public function propietario()
+    public function propietario():BelongsTo
     {
        return $this->belongsTo(User::class,'propietario_id');
     }
 
-    public function arrendatario()
+    public function arrendatario():BelongsTo
     {
        return $this->belongsTo(User::class,'arrendatario_id');
     }

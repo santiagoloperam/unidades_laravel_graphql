@@ -13,7 +13,7 @@ class TipoUsuario extends Model
         'tipo_usuarios'
     ];
 
-    public function users()
+    public function users(): HasMany
     {
        return $this->hasMany(User::class);
     }
