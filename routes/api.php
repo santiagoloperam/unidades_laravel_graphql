@@ -12,6 +12,10 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+/*Route::group(['prefix' => '',
+  'middleware' => Fruitcake\Cors\HandleCors::class],
+   function()
+{*/
 
 	Route::apiResource('users','UsersController');
 	Route::apiResource('unidades','unidadesController');
@@ -20,3 +24,4 @@ use Illuminate\Http\Request;
 	Route::apiResource('aptos','AptosController');
 	Route::apiResource('facturas','facturasController');
    
+/*});*/
