@@ -10,22 +10,22 @@ scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Da
 type Mutation
 
 type Query {
-  users: [User!]! @paginate(defaultCount: 10)
+  users: [User!]! @paginate(defaultCount: 100000)
   user(id: ID @eq): User @find
 
   tipoUsuarios: [TipoUsuario!]! @paginate(defaultCount: 10)
   tipoUsuario (id: ID @eq): TipoUsuario @find
      
-  unidades: [Unidade!]! @paginate(defaultCount: 10)
+  unidades: [Unidade!]! @paginate(defaultCount: 1000)
   unidade(id: ID @eq): Unidade @find
 
-  bloques: [Bloque!]! @paginate(defaultCount: 10)
+  bloques: [Bloque!]! @paginate(defaultCount: 100000)
   bloque(id: ID @eq): Bloque @find
       
-  aptos: [Apto!]! @paginate(defaultCount: 10)
+  aptos: [Apto!]! @paginate(defaultCount: 1000000)
   apto(id: ID @eq): Apto @find
       
-  tipoAptos: [TipoApto!]! @paginate(defaultCount: 10)
+  tipoAptos: [TipoApto!]! @paginate(defaultCount: 10000)
   tipoApto(id: ID @eq): TipoApto @find
 }
 
