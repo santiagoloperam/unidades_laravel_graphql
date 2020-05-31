@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-05-2020 a las 04:52:29
+-- Tiempo de generación: 01-06-2020 a las 01:57:46
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.3
 
@@ -21,6 +21,33 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `unidades`
 --
+
+DELIMITER $$
+--
+-- Procedimientos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CreateBloque` (IN `param_nombre` VARCHAR(45), `param_unidad_id` INT(10))  BEGIN
+	INSERT INTO bloques(
+ 		nombre,
+        unidad_id       
+    )
+    VALUES(
+        param_nombre,
+        param_unidad_id
+    );
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllUsers` ()  BEGIN
+	SELECT * FROM `users` WHERE 1;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetUsersById` (IN `paramid` BIGINT(20))  BEGIN
+	SELECT * 
+ 	FROM users
+	WHERE id = paramid;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -46,7 +73,10 @@ CREATE TABLE `aptos` (
 
 INSERT INTO `aptos` (`id`, `nomenclatura`, `unidad_id`, `bloque_id`, `tipo_apto_id`, `propietario_id`, `arrendatario_id`, `created_at`, `updated_at`) VALUES
 (1, '502 Saman', 3, 5, 3, 1, 2, NULL, NULL),
-(2, 'casa 6', 3, 5, 3, 1, 2, NULL, NULL);
+(2, 'casa 6', 3, 5, 3, 1, 2, NULL, NULL),
+(3, '301 Nogal', 3, 5, 3, 1, 2, '2020-05-22 08:46:13', '2020-05-22 08:49:38'),
+(14, 'yujythgf', 3, 5, 3, 1, NULL, NULL, NULL),
+(15, 'hjdgfds', 3, 5, 3, 1, 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -82,21 +112,6 @@ INSERT INTO `bloques` (`id`, `nombre`, `unidad_id`, `updated_at`, `created_at`) 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `failed_jobs`
---
-
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `migrations`
 --
 
@@ -113,19 +128,12 @@ CREATE TABLE `migrations` (
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_resets_table', 1),
-(3, '2019_08_19_000000_create_failed_jobs_table', 1);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `password_resets`
---
-
-CREATE TABLE `password_resets` (
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+(3, '2019_08_19_000000_create_failed_jobs_table', 1),
+(4, '2016_06_01_000001_create_oauth_auth_codes_table', 2),
+(5, '2016_06_01_000002_create_oauth_access_tokens_table', 2),
+(6, '2016_06_01_000003_create_oauth_refresh_tokens_table', 2),
+(7, '2016_06_01_000004_create_oauth_clients_table', 2),
+(8, '2016_06_01_000005_create_oauth_personal_access_clients_table', 2);
 
 -- --------------------------------------------------------
 
@@ -212,6 +220,7 @@ INSERT INTO `unidades` (`id`, `nombre`, `direccion`, `telefono`, `admin_id`, `ac
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `user_name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -221,7 +230,6 @@ CREATE TABLE `users` (
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `active` tinyint(1) NOT NULL,
   `tipo_usuario_id` int(11) UNSIGNED NOT NULL,
-  `admin_id` int(11) UNSIGNED DEFAULT NULL,
   `unidade_id` int(11) DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -232,11 +240,11 @@ CREATE TABLE `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `last_name`, `email`, `dni`, `telefono`, `email_verified_at`, `password`, `active`, `tipo_usuario_id`, `admin_id`, `unidade_id`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Santiago', 'Lopera', 'santiagoloperam@gmail.com', '1234567', '1234567', NULL, '123456', 1, 1, 1, NULL, NULL, NULL, NULL),
-(2, 'Luis Miguel', 'Paz', 'luismiguelpaz96@gmail.com', '123456789', '123456789', NULL, '123456', 0, 2, 1, NULL, NULL, NULL, NULL),
-(4, 'Walter', 'Paz', 'walter.paz.00@gmail.com', '123', '123123', NULL, '123456', 1, 3, 2, NULL, NULL, '2020-05-20 02:07:12', '2020-05-20 05:47:48'),
-(5, 'Juan', 'Perez', 'jp@gmail.com', '456456', '4564566', NULL, '123456', 1, 3, 1, 3, NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `user_name`, `name`, `last_name`, `email`, `dni`, `telefono`, `email_verified_at`, `password`, `active`, `tipo_usuario_id`, `unidade_id`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'santi', 'Santiago', 'Lopera', 'santiagoloperam@gmail.com', '1234567', '1234567', NULL, '123456', 1, 1, NULL, NULL, NULL, NULL),
+(2, 'migue', 'Luis Miguel', 'Paz', 'luismiguelpaz96@gmail.com', '123456789', '123456789', NULL, '123456', 0, 2, NULL, NULL, NULL, NULL),
+(11, 'ani', 'Ana', 'paz', 'ana@gmail.com', '123456789', '55555555', NULL, '$2y$10$pbfxAMskPKwW9KbeO/iqLeDzbIiaYGRaMeITrQQ5KKrQTyMMnOJVi', 1, 3, NULL, NULL, '2020-05-31 22:12:20', '2020-05-31 22:12:20'),
+(12, 'pepe', 'PEPE', 'MARTINEZ', 'pepe@gmail.com', '123444444', '7777777', NULL, '$2y$10$BMUllT2wgJO6DaeGAdFr8.LaeTzQDc0k/KEBPB5hHIKRYzyYzxcdq', 1, 3, NULL, NULL, '2020-05-31 22:16:03', '2020-05-31 22:16:03');
 
 --
 -- Índices para tablas volcadas
@@ -261,22 +269,10 @@ ALTER TABLE `bloques`
   ADD KEY `id_unidad` (`unidad_id`);
 
 --
--- Indices de la tabla `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indices de la tabla `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `password_resets`
---
-ALTER TABLE `password_resets`
-  ADD KEY `password_resets_email_index` (`email`);
 
 --
 -- Indices de la tabla `tipo_aptos`
@@ -304,7 +300,8 @@ ALTER TABLE `unidades`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD UNIQUE KEY `user_name` (`user_name`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -314,7 +311,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `aptos`
 --
 ALTER TABLE `aptos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `bloques`
@@ -323,16 +320,10 @@ ALTER TABLE `bloques`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT de la tabla `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_aptos`
@@ -344,19 +335,19 @@ ALTER TABLE `tipo_aptos`
 -- AUTO_INCREMENT de la tabla `tipo_usuarios`
 --
 ALTER TABLE `tipo_usuarios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `unidades`
 --
 ALTER TABLE `unidades`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Restricciones para tablas volcadas

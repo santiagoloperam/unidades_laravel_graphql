@@ -31,6 +31,7 @@ type Query {
 
 type User {
     id: ID!
+    user_name: String!
     name: String!
     last_name: String!
     email: String!
@@ -40,7 +41,6 @@ type User {
     password: String!
     active: Boolean!
     tipo_usuario_id: Int!
-    admin_id:Int!
     tipo: TipoUsuario! @belongsTo(relation: "tipo_usuario")
     admin: User! @belongsTo(relation: "admin")
     unidades_admin: [Unidade] @hasMany(relation: "unidades_admin")
@@ -97,6 +97,7 @@ type Unidade {
 
     updateUser(
     	id: ID!, 
+        user_name: String,
     	name: String, 
     	last_name: String, 
     	email: String, 
@@ -104,19 +105,18 @@ type Unidade {
     	telefono: String,  
     	password: String, 
     	active: Boolean, 
-    	tipo_usuario_id: ID,
-    	admin_id:Int) : User @update
+    	tipo_usuario_id: ID) : User @update
 
     createUser(
+        user_name: String!,
     	name: String!, 
     	last_name: String!, 
     	email: String!, 
     	dni: String!, 
     	telefono: String!,  
-    	password: String!, 
+    	password: String! @hash, 
     	active: Boolean!, 
-    	tipo_usuario_id: ID!,
-    	admin_id: ID!) : User! @create
+    	tipo_usuario_id: ID!) : User! @create
 
     deleteUser(id: ID!) : User! @delete
 
