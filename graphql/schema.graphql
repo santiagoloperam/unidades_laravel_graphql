@@ -10,6 +10,7 @@ scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Da
 type Mutation
 
 type Query {
+  #users: [User!]! @middleware(checks: ["auth:api"]) @paginate(defaultCount: 100000)
   users: [User!]! @paginate(defaultCount: 100000)
   user(id: ID @eq): User @find
 
@@ -31,18 +32,18 @@ type Query {
 
 type User {
     id: ID!
-    user_name: String!
+    nombre: String
     name: String!
-    last_name: String!
+    apellido: String
     email: String!
-    dni: String!
-    telefono: String!
+    dni: String
+    telefono: String
     email_verified_at: DateTime
     password: String!
     active: Boolean!
-    tipo_usuario_id: Int!
-    tipo: TipoUsuario! @belongsTo(relation: "tipo_usuario")
-    admin: User! @belongsTo(relation: "admin")
+    tipo_usuario_id: Int
+    tipo: TipoUsuario @belongsTo(relation: "tipo_usuario")
+    #admin: User! @belongsTo(relation: "admin")
     unidades_admin: [Unidade] @hasMany(relation: "unidades_admin")
     created_at: DateTime
     updated_at: DateTime
@@ -97,9 +98,9 @@ type Unidade {
 
     updateUser(
     	id: ID!, 
-        user_name: String,
+        nombre: String,
     	name: String, 
-    	last_name: String, 
+    	apellido: String, 
     	email: String, 
     	dni: String, 
     	telefono: String,  
@@ -108,9 +109,9 @@ type Unidade {
     	tipo_usuario_id: ID) : User @update
 
     createUser(
-        user_name: String!,
+        nombre: String!,
     	name: String!, 
-    	last_name: String!, 
+    	apellido: String!, 
     	email: String!, 
     	dni: String!, 
     	telefono: String!,  

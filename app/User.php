@@ -8,16 +8,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
 use App\TipoUsuario;
 use App\Unidade;
 use App\Bloque;
 //use App\User;
 
+//Client ID: 4
+//Client secret: 1R38k53iJms8jTNwP5cX4KgwkTwCbbnELKHsqaRU
+
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +30,7 @@ class User extends Authenticatable
      */
 
     protected $fillable = [
-        'user_name','name','last_name', 'email','dni','telefono', 'password','active','tipo_usuarios_id','unidade_id'
+        'name','nombre','apellido', 'email','dni','telefono', 'password','active','tipo_usuarios_id','unidade_id'
     ];
 
     /**
