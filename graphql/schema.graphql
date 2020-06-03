@@ -32,8 +32,8 @@ type Query {
 
 type User {
     id: ID!
+    user_name: String!
     nombre: String
-    name: String!
     apellido: String
     email: String!
     dni: String

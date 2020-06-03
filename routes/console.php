@@ -19,7 +19,7 @@ Artisan::command('inspire', function () {
 
 Artisan::command('user', function () {
     \App\User::create([
-        'name' => 'Jose Fonseca',
+        'user_name' => 'Jose Fonseca',
         'email' => 'myemail@email.com',
         'password' => bcrypt('123456789qq')
     ]);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-06-2020 a las 16:24:30
+-- Tiempo de generación: 03-06-2020 a las 23:43:34
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.3
 
@@ -171,8 +171,10 @@ CREATE TABLE `oauth_access_tokens` (
 
 INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
 ('029c8ab3a650a8aca4dac7d91ed90c9648836f0d249bf42f997572023e5d7fc716ef4e26c619e00a', 22, 2, NULL, '[]', 0, '2020-06-03 18:46:29', '2020-06-03 18:46:29', '2021-06-03 13:46:29'),
+('20399b32df9c9db2df1317df67ea5b147b1cd913f1365854aedb88431cb7ba8fec987ecf8e20a874', 22, 2, NULL, '[]', 0, '2020-06-04 02:34:19', '2020-06-04 02:34:19', '2021-06-03 21:34:19'),
 ('503874de359ada9d75e88c72d9c933486bde7546cdab114536c2ab57ea7d93e68b4e3a248b98f30f', 22, 2, NULL, '[]', 0, '2020-06-03 09:39:46', '2020-06-03 09:39:46', '2021-06-03 04:39:46'),
 ('68779c207e43b686d4773da04d0c413ab4f115e816ba83f2a4dea00716b45108f76b4d53d9756fdb', 22, 2, NULL, '[]', 0, '2020-06-03 09:34:47', '2020-06-03 09:34:47', '2021-06-03 04:34:47'),
+('b696fdbafd83d764d2e7944a0067c752a0624603219775c0441a6bde742ab83fdec5a0178e412b6f', 22, 2, NULL, '[]', 0, '2020-06-04 01:55:00', '2020-06-04 01:55:00', '2021-06-03 20:55:00'),
 ('c0be0bda527f1c19c7641a26a884c668617226f4fa394cc4ef92f894c26f1497e72d592d63551da4', 21, 2, NULL, '[]', 0, '2020-06-03 09:15:16', '2020-06-03 09:15:16', '2021-06-03 04:15:16'),
 ('db1b5a3650e1753c4645ba9bc475eb6e501a4eb3ac6a9d1b05e78d9b27cd2ab3d6a9a01a435a7c30', 22, 2, NULL, '[]', 0, '2020-06-03 18:45:36', '2020-06-03 18:45:36', '2021-06-03 13:45:36'),
 ('ee5dc0877de770005ed604e8d82a43923d2e6ec890b61675c0467d6dcf8c71e27a17bd271db477f0', 22, 2, NULL, '[]', 0, '2020-06-03 09:32:46', '2020-06-03 09:32:46', '2021-06-03 04:32:46'),
@@ -264,10 +266,12 @@ CREATE TABLE `oauth_refresh_tokens` (
 INSERT INTO `oauth_refresh_tokens` (`id`, `access_token_id`, `revoked`, `expires_at`) VALUES
 ('0b77768856a71f08047cfe47b71c2a21708d704f93221b3d4a9da735bb34af859093d6fce8e9ec6a', '503874de359ada9d75e88c72d9c933486bde7546cdab114536c2ab57ea7d93e68b4e3a248b98f30f', 0, '2021-06-03 04:39:46'),
 ('137b47732d31274b0fa6445bf5bbb4696bc10f3cb1a83a617d7e1d64c6e968e29e9c19a0522053cf', '68779c207e43b686d4773da04d0c413ab4f115e816ba83f2a4dea00716b45108f76b4d53d9756fdb', 0, '2021-06-03 04:34:47'),
+('431a4f11c0e098e0be05ecfe2c6ba127bd5758ed0c9110e02b6e9589c58fb5b519af36d205e6c815', '20399b32df9c9db2df1317df67ea5b147b1cd913f1365854aedb88431cb7ba8fec987ecf8e20a874', 0, '2021-06-03 21:34:19'),
 ('722fc334345d814cb74e0ae3ac89696f89c4178fec7b11a223371d0e34d84ebd7f6cb7ccfc4ea55b', 'ee5dc0877de770005ed604e8d82a43923d2e6ec890b61675c0467d6dcf8c71e27a17bd271db477f0', 0, '2021-06-03 04:32:46'),
 ('91739cb2167ecb218b649719a8d5d04af1466c447d6ce0dce274d6fc0390256806ff1c52b03cb25c', 'db1b5a3650e1753c4645ba9bc475eb6e501a4eb3ac6a9d1b05e78d9b27cd2ab3d6a9a01a435a7c30', 0, '2021-06-03 13:45:36'),
 ('b847fb3776366492623dfbff7bff708af9fe26d2ed3b26c29c4d7c9225b68f88bb0b486bb340e3ba', 'c0be0bda527f1c19c7641a26a884c668617226f4fa394cc4ef92f894c26f1497e72d592d63551da4', 0, '2021-06-03 04:15:17'),
 ('c79cd1f19f4df3841c84330f75d11badee6816d457eba5011222a9faa1e36e09526a8914d1b164bf', 'f2d970d9902fe2cf0b4927d96d4b82430b6ffadfe1acfc6cb76da4ed12598bbe77d9d38ba101b3ef', 0, '2021-06-03 13:43:55'),
+('ecaefe3d602b321dd19954830e448430a7643930e03b9bf308f6b919b391c4440729bc2a50d671da', 'b696fdbafd83d764d2e7944a0067c752a0624603219775c0441a6bde742ab83fdec5a0178e412b6f', 0, '2021-06-03 20:55:01'),
 ('f69da010f055742d0b0be28aa0a15fa06dd6de5119ba2aabca3bda947c3ab94b17246239c2c024c3', '029c8ab3a650a8aca4dac7d91ed90c9648836f0d249bf42f997572023e5d7fc716ef4e26c619e00a', 0, '2021-06-03 13:46:29');
 
 -- --------------------------------------------------------
@@ -367,8 +371,8 @@ INSERT INTO `unidades` (`id`, `nombre`, `direccion`, `telefono`, `admin_id`, `ac
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `nombre` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombre` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `apellido` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dni` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -387,7 +391,7 @@ CREATE TABLE `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `nombre`, `name`, `apellido`, `email`, `dni`, `telefono`, `email_verified_at`, `password`, `active`, `tipo_usuario_id`, `unidade_id`, `remember_token`, `created_at`, `updated_at`) VALUES
+INSERT INTO `users` (`id`, `user_name`, `nombre`, `apellido`, `email`, `dni`, `telefono`, `email_verified_at`, `password`, `active`, `tipo_usuario_id`, `unidade_id`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'santi', 'Santiago', 'Lopera', 'santiagoloperam@gmail.com', '1234567', '1234567', NULL, '123456', 1, 1, NULL, NULL, NULL, NULL),
 (2, 'migue', 'Luis Miguel', 'Paz', 'luismiguelpaz96@gmail.com', '123456789', '123456789', NULL, '123456', 0, 2, NULL, NULL, NULL, NULL),
 (11, 'ani', 'Ana', 'paz', 'ana@gmail.com', '123456789', '55555555', NULL, '$2y$10$pbfxAMskPKwW9KbeO/iqLeDzbIiaYGRaMeITrQQ5KKrQTyMMnOJVi', 1, 3, NULL, NULL, '2020-05-31 22:12:20', '2020-05-31 22:12:20'),
@@ -499,7 +503,7 @@ ALTER TABLE `unidades`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`),
-  ADD UNIQUE KEY `user_name` (`nombre`);
+  ADD UNIQUE KEY `user_name` (`user_name`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
