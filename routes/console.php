@@ -21,6 +21,6 @@ Artisan::command('user', function () {
     \App\User::create([
         'user_name' => 'Jose Fonseca',
         'email' => 'myemail@email.com',
-        'password' => bcrypt('123456789qq')
+        'password' => Hash::make('123456', ['rounds' => 10])	
     ]);
 })->describe('Create sample user');

@@ -10,8 +10,8 @@ scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Da
 type Mutation
 
 type Query {
-  #users: [User!]! @middleware(checks: ["auth:api"]) @paginate(defaultCount: 100000)
-  users: [User!]! @paginate(defaultCount: 100000)
+  users: [User!]! @middleware(checks: ["auth:api"]) @paginate(defaultCount: 100000)
+  #users: [User!]! @paginate(defaultCount: 100000)
   user(id: ID @eq): User @find
 
   tipoUsuarios: [TipoUsuario!]! @paginate(defaultCount: 10)
@@ -28,6 +28,9 @@ type Query {
       
   tipoAptos: [TipoApto!]! @paginate(defaultCount: 10000)
   tipoApto(id: ID @eq): TipoApto @find
+
+  facturas: [Factura!] @paginate(defaultCount: 1000000)
+  factura(id: ID @eq): Factura @find
 }
 
 type User {
@@ -52,7 +55,7 @@ type User {
 type TipoUsuario {
     id: ID!
     tipo_usuarios: String!
-    users: [User!]! @hasMany(relation: "users")
+    users: [User!] @hasMany(relation: "users")
   }
 
 type Unidade {
@@ -60,7 +63,9 @@ type Unidade {
     nombre: String!
     direccion: String!
     telefono: String!
-    active: Boolean!    
+    nit: String!
+    active: Boolean!
+    admin_id: ID!    
     admin: User! @belongsTo(relation: "admin")
     aptos: [Apto!]! @hasMany(relation: "aptos")
     bloques: [Bloque!]! @hasMany(relation: "bloques")
@@ -69,18 +74,25 @@ type Unidade {
   type Bloque {
     id: ID!
     nombre: String!
+    unidad_id: ID!
     unidad: Unidade! @belongsTo(relation: "unidad")
-    aptos: [Apto!]! @hasMany(relation: "aptos")
+    aptos: [Apto!] @hasMany(relation: "aptos")
   }
 
   type Apto {
     id: ID!
     nomenclatura: String!
+    unidad_id: ID!
+    bloque_id: ID!
+    tipo_apto_id: ID!
+    propietario_id: ID!
+    arrendatario_id: ID
     unidad: Unidade! @belongsTo(relation: "unidad")
     bloque: Bloque! @belongsTo(relation: "bloque")
     tipoapto: TipoApto! @belongsTo(relation: "tipoapto")
     propietario: User! @belongsTo(relation: "propietario")
     arrendatario: User @belongsTo(relation: "arrendatario")
+    facturas: [Factura!] @hasMany(relation: "facturas")
   }
 
    type TipoApto {
@@ -89,9 +101,20 @@ type Unidade {
     cobro: Float!
     vigencia: Int!
     metros: Int!
+    unidad_id: ID!
     unidad: Unidade! @belongsTo(relation: "unidad")
-    aptos: [Apto!]! @hasMany(relation: "aptos")
-  } 
+    aptos: [Apto!] @hasMany(relation: "aptos")
+  }
+
+   type Factura {
+    id:ID!
+    numero: String
+    saldo: Float
+    fecha: String
+    pagada: Boolean
+    apto_id: ID!
+    apto: Apto! @belongsTo(relation: "apto")
+   } 
 
 
  type Mutation {
@@ -104,7 +127,7 @@ type Unidade {
     	email: String, 
     	dni: String, 
     	telefono: String,  
-    	password: String, 
+    	password: String @hash, 
     	active: Boolean, 
     	tipo_usuario_id: ID) : User @update
 
@@ -135,13 +158,15 @@ type Unidade {
     	nombre: String, 
     	direccion: String, 
     	telefono: String, 
+        nit: String,
     	admin_id: Int, 
     	active: Boolean) : Unidade! @update
 
     createUnidad(
     	nombre: String, 
     	direccion: String, 
-    	telefono: String, 
+    	telefono: String,
+        nit: String, 
     	admin_id: Int, 
     	active: Boolean) : Unidade! @create
 
@@ -182,7 +207,7 @@ type Unidade {
     	id: ID!, 
     	tipo_apto: String, 
     	cobro: Float, 
-    	igencia: Int, 
+    	vigencia: Int, 
     	metros: Int, 
     	unidad_id: Int) : TipoApto! @update
 
@@ -194,6 +219,24 @@ type Unidade {
     	unidad_id: Int) : TipoApto! @create
 
     deleteTipoApto(id: ID!) : TipoApto! @delete
+
+
+    updateFactura(
+        id: ID!, 
+        numero: String, 
+        saldo: Float, 
+        fecha: Int, 
+        apto_id: ID!, 
+        pagada: Boolean) : Factura! @update
+
+    createFactura(
+        numero: String, 
+        saldo: Float, 
+        fecha: Int, 
+        apto_id: ID!, 
+        pagada: Boolean) : Factura! @create
+
+    deleteFactura(id: ID!) : Factura! @delete
 
 
 }

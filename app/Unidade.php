@@ -13,7 +13,7 @@ use App\Apto;
 class Unidade extends Model
 {
      protected $fillable = [
-        'nombre','direccion','telefono','admin_id','active'
+        'nombre','direccion','telefono','nit','admin_id','active'
     ];
 
     public function admin(): BelongsTo

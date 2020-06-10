@@ -11,6 +11,7 @@ use App\Unidade;
 use App\TipoApto;
 use App\User;
 use App\Bloque;
+use App\Apto;
 
 class Apto extends Model
 {
@@ -44,6 +45,11 @@ class Apto extends Model
     public function arrendatario():BelongsTo
     {
        return $this->belongsTo(User::class,'arrendatario_id');
+    }
+
+    public function facturas():HasMany
+    {
+       return $this->hasMany(Factura::class,'apto_id');
     }
     
 }
