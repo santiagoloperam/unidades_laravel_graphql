@@ -13,12 +13,14 @@ type Query {
   users: [User!]! @middleware(checks: ["auth:api"]) @paginate(defaultCount: 100000)
   #users: [User!]! @paginate(defaultCount: 100000)
   user(id: ID @eq): User @find
+  me: User! @auth
 
   tipoUsuarios: [TipoUsuario!]! @paginate(defaultCount: 10)
   tipoUsuario (id: ID @eq): TipoUsuario @find
      
   unidades: [Unidade!]! @paginate(defaultCount: 1000)
-  unidade(id: ID @eq): Unidade @find
+  unidade(id: ID @eq): Unidade @find 
+  unidadeByAdmin(admin_id: ID! @eq): Unidade @find 
 
   bloques: [Bloque!]! @paginate(defaultCount: 100000)
   bloque(id: ID @eq): Bloque @find
@@ -35,14 +37,12 @@ type Query {
 
 type User {
     id: ID!
-    user_name: String!
-    nombre: String
-    apellido: String
+    name: String    
     email: String!
     dni: String
     telefono: String
     email_verified_at: DateTime
-    password: String!
+    password: String! 
     active: Boolean!
     tipo_usuario_id: Int
     tipo: TipoUsuario @belongsTo(relation: "tipo_usuario")
@@ -117,30 +117,26 @@ type Unidade {
    } 
 
 
- type Mutation {
+ type Mutation { 
+
 
     updateUser(
     	id: ID!, 
-        nombre: String,
-    	name: String, 
-    	apellido: String, 
+        name: String, 
     	email: String, 
     	dni: String, 
     	telefono: String,  
-    	password: String @hash, 
     	active: Boolean, 
     	tipo_usuario_id: ID) : User @update
 
-    createUser(
-        nombre: String!,
-    	name: String!, 
-    	apellido: String!, 
-    	email: String!, 
-    	dni: String!, 
-    	telefono: String!,  
-    	password: String! @hash, 
-    	active: Boolean!, 
-    	tipo_usuario_id: ID!) : User! @create
+    # createUser(
+    #     name: String!,  
+    # 	email: String!, 
+    # 	dni: String!, 
+    # 	telefono: String!,  
+    # 	password: String! @hash, 
+    # 	active: Boolean!, 
+    # 	tipo_usuario_id: ID!) : User! @create
 
     deleteUser(id: ID!) : User! @delete
 
@@ -159,16 +155,14 @@ type Unidade {
     	direccion: String, 
     	telefono: String, 
         nit: String,
-    	admin_id: Int, 
-    	active: Boolean) : Unidade! @update
+    	active: Boolean) : Unidade! @update @inject(context:"user.id",name:"admin_id") @guard(with: ["api"])
 
     createUnidad(
     	nombre: String, 
     	direccion: String, 
     	telefono: String,
         nit: String, 
-    	admin_id: Int, 
-    	active: Boolean) : Unidade! @create
+    	active: Boolean) : Unidade! @create @inject(context:"user.id",name:"admin_id") @guard(with: ["api"])
 
     deleteUnidad(id: ID!) : Unidade! @delete
     

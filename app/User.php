@@ -28,10 +28,10 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      *
      * @var array
-     */
+     */    
 
     protected $fillable = [
-        'user_name','nombre','apellido', 'email','dni','telefono', 'password','active','tipo_usuarios_id','unidade_id'
+        'name','email','dni','telefono', 'password','active','tipo_usuarios_id','unidade_id'
     ];
 
     /**
@@ -42,12 +42,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-
-     public function findForPassport($username)
-    {
-        return $this->where('user_name', $username)->first();
-    }
+     
 
     public function validateForPassportPasswordGrant($password)
     {

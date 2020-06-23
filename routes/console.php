@@ -19,8 +19,8 @@ Artisan::command('inspire', function () {
 
 Artisan::command('user', function () {
     \App\User::create([
-        'user_name' => 'Jose Fonseca',
-        'email' => 'myemail@email.com',
-        'password' => Hash::make('123456', ['rounds' => 10])	
+        'name' => 'Santi Dev',
+        'email' => 'santideveloper@email.com',
+        'password' => Hash::make('123456789', ['rounds' => 10])	
     ]);
 })->describe('Create sample user');

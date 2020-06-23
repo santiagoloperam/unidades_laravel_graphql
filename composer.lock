@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c6795c66692d840e7fc36079fd4a0b4",
+    "content-hash": "d2cd51af465d003bb3c3f28dc8407232",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2032,16 +2032,16 @@
         },
         {
             "name": "nuwave/lighthouse",
-            "version": "v4.13.1",
+            "version": "v4.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nuwave/lighthouse.git",
-                "reference": "fc1d6f8edb8d6c0aa5dc3a8d91f3a2ea5bcc341b"
+                "reference": "1037be8f5d14bfbf65cde1f3804b8e29114d84d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nuwave/lighthouse/zipball/fc1d6f8edb8d6c0aa5dc3a8d91f3a2ea5bcc341b",
-                "reference": "fc1d6f8edb8d6c0aa5dc3a8d91f3a2ea5bcc341b",
+                "url": "https://api.github.com/repos/nuwave/lighthouse/zipball/1037be8f5d14bfbf65cde1f3804b8e29114d84d8",
+                "reference": "1037be8f5d14bfbf65cde1f3804b8e29114d84d8",
                 "shasum": ""
             },
             "require": {
@@ -2124,7 +2124,7 @@
                 "laravel",
                 "laravel-graphql"
             ],
-            "time": "2020-05-23T15:54:56+00:00"
+            "time": "2020-06-05T10:02:42+00:00"
         },
         {
             "name": "nyholm/psr7",
