@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-06-2020 a las 23:43:34
+-- Tiempo de generación: 23-06-2020 a las 20:20:31
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.3
 
@@ -74,7 +74,9 @@ CREATE TABLE `aptos` (
 INSERT INTO `aptos` (`id`, `nomenclatura`, `unidad_id`, `bloque_id`, `tipo_apto_id`, `propietario_id`, `arrendatario_id`, `created_at`, `updated_at`) VALUES
 (1, '502 Saman', 3, 5, 3, 1, 2, NULL, NULL),
 (2, 'casa 6', 3, 5, 3, 1, 2, NULL, NULL),
-(3, '301 Nogal', 3, 5, 3, 1, 2, '2020-05-22 08:46:13', '2020-05-22 08:49:38');
+(3, '301 Nogal', 3, 5, 3, 1, 2, '2020-05-22 08:46:13', '2020-05-22 08:49:38'),
+(4, 'casa A1', 7, 15, 4, 54, NULL, NULL, NULL),
+(5, 'Casa B1', 7, 15, 5, 55, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -105,7 +107,25 @@ INSERT INTO `bloques` (`id`, `nombre`, `unidad_id`, `updated_at`, `created_at`) 
 (9, 'Interior 2', 4, '2019-08-20 01:40:04', '2019-08-20 01:40:04'),
 (10, 'Interior 3', 4, '2019-08-20 01:40:15', '2019-08-20 01:40:15'),
 (11, 'D', 2, '2019-08-21 01:30:02', '2019-08-21 01:30:02'),
-(14, 'E1', 2, '2019-08-23 19:54:34', '2019-08-23 19:47:02');
+(14, 'E1', 2, '2019-08-23 19:54:34', '2019-08-23 19:47:02'),
+(15, 'manzana I', 7, '2020-06-18 13:08:00', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `facturas`
+--
+
+CREATE TABLE `facturas` (
+  `id` bigint(255) NOT NULL,
+  `numero` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
+  `saldo` float NOT NULL,
+  `fecha` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
+  `apto_id` int(11) NOT NULL,
+  `pagada` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -140,12 +160,14 @@ CREATE TABLE `migrations` (
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
-(16, '2014_10_12_100000_create_password_resets_table', 2),
-(17, '2016_06_01_000001_create_oauth_auth_codes_table', 2),
-(18, '2016_06_01_000002_create_oauth_access_tokens_table', 2),
-(19, '2016_06_01_000003_create_oauth_refresh_tokens_table', 2),
-(20, '2016_06_01_000004_create_oauth_clients_table', 2),
-(21, '2016_06_01_000005_create_oauth_personal_access_clients_table', 2);
+(22, '2014_10_12_100000_create_password_resets_table', 2),
+(23, '2016_06_01_000001_create_oauth_auth_codes_table', 2),
+(24, '2016_06_01_000002_create_oauth_access_tokens_table', 2),
+(25, '2016_06_01_000003_create_oauth_refresh_tokens_table', 2),
+(26, '2016_06_01_000004_create_oauth_clients_table', 2),
+(27, '2016_06_01_000005_create_oauth_personal_access_clients_table', 2),
+(28, '2019_08_19_000000_create_failed_jobs_table', 2),
+(29, '2019_11_19_000000_update_social_provider_users_table', 2);
 
 -- --------------------------------------------------------
 
@@ -170,15 +192,16 @@ CREATE TABLE `oauth_access_tokens` (
 --
 
 INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
-('029c8ab3a650a8aca4dac7d91ed90c9648836f0d249bf42f997572023e5d7fc716ef4e26c619e00a', 22, 2, NULL, '[]', 0, '2020-06-03 18:46:29', '2020-06-03 18:46:29', '2021-06-03 13:46:29'),
-('20399b32df9c9db2df1317df67ea5b147b1cd913f1365854aedb88431cb7ba8fec987ecf8e20a874', 22, 2, NULL, '[]', 0, '2020-06-04 02:34:19', '2020-06-04 02:34:19', '2021-06-03 21:34:19'),
-('503874de359ada9d75e88c72d9c933486bde7546cdab114536c2ab57ea7d93e68b4e3a248b98f30f', 22, 2, NULL, '[]', 0, '2020-06-03 09:39:46', '2020-06-03 09:39:46', '2021-06-03 04:39:46'),
-('68779c207e43b686d4773da04d0c413ab4f115e816ba83f2a4dea00716b45108f76b4d53d9756fdb', 22, 2, NULL, '[]', 0, '2020-06-03 09:34:47', '2020-06-03 09:34:47', '2021-06-03 04:34:47'),
-('b696fdbafd83d764d2e7944a0067c752a0624603219775c0441a6bde742ab83fdec5a0178e412b6f', 22, 2, NULL, '[]', 0, '2020-06-04 01:55:00', '2020-06-04 01:55:00', '2021-06-03 20:55:00'),
-('c0be0bda527f1c19c7641a26a884c668617226f4fa394cc4ef92f894c26f1497e72d592d63551da4', 21, 2, NULL, '[]', 0, '2020-06-03 09:15:16', '2020-06-03 09:15:16', '2021-06-03 04:15:16'),
-('db1b5a3650e1753c4645ba9bc475eb6e501a4eb3ac6a9d1b05e78d9b27cd2ab3d6a9a01a435a7c30', 22, 2, NULL, '[]', 0, '2020-06-03 18:45:36', '2020-06-03 18:45:36', '2021-06-03 13:45:36'),
-('ee5dc0877de770005ed604e8d82a43923d2e6ec890b61675c0467d6dcf8c71e27a17bd271db477f0', 22, 2, NULL, '[]', 0, '2020-06-03 09:32:46', '2020-06-03 09:32:46', '2021-06-03 04:32:46'),
-('f2d970d9902fe2cf0b4927d96d4b82430b6ffadfe1acfc6cb76da4ed12598bbe77d9d38ba101b3ef', 22, 2, NULL, '[]', 0, '2020-06-03 18:43:55', '2020-06-03 18:43:55', '2021-06-03 13:43:55');
+('0639d112a81767370be2ad0d049cd0a6b6a4999f1301267e2576e9204d6723a6259d4cf4d141dbbf', 60, 4, NULL, '[]', 0, '2020-06-23 10:04:30', '2020-06-23 10:04:30', '2021-06-23 05:04:30'),
+('5b114cb9c27818913e1e4b64ecd3022c73a9fa7792f97ee3417470cb9921334801eae1d1fbb11df1', 60, 4, NULL, '[]', 0, '2020-06-23 23:10:05', '2020-06-23 23:10:05', '2021-06-23 18:10:05'),
+('7b140d0759d61bae46687d2f15735ef7b8c9778a83bfb849b72e5bc4deb70d26f3ae0024a1c9f3b9', 60, 4, NULL, '[]', 0, '2020-06-23 10:09:34', '2020-06-23 10:09:34', '2021-06-23 05:09:34'),
+('8d55b484d18e895a84724ff1af7a3c29cbc3f2873006710f19670819b4ee4d79742eed66f8a45463', 62, 4, NULL, '[]', 0, '2020-06-23 10:14:26', '2020-06-23 10:14:26', '2021-06-23 05:14:26'),
+('8e754dc2bc52029e9b88f75d2ebeefce1d4af4028d6a9354ce02d0f5a820ed655e3bb830540944a0', 62, 4, NULL, '[]', 0, '2020-06-23 10:23:36', '2020-06-23 10:23:36', '2021-06-23 05:23:36'),
+('9cc5bbe198a5dc1436a9d8218fd0308d6eac3c3f3f18e8cd9c26cf072440f0a2f12f9dd7658fc424', 62, 4, NULL, '[]', 0, '2020-06-23 10:13:01', '2020-06-23 10:13:01', '2021-06-23 05:13:01'),
+('b26967d547aaf9642478ddd6500bbbccd967e263f3a694d0c4d04cfb20c160151e04b13f6599e303', 62, 4, NULL, '[]', 0, '2020-06-23 22:30:00', '2020-06-23 22:30:00', '2021-06-23 17:30:00'),
+('ce733991ee9ae0fdee8fc05194871cd04a689e14837b49dc11258f4f59cce644909270c4c182e881', 62, 4, NULL, '[]', 0, '2020-06-23 10:19:37', '2020-06-23 10:19:37', '2021-06-23 05:19:37'),
+('dcd3f98decf38139c94146c723e6a4f99268694c4e4267b56399174b1e922c88fe350c100a15172f', 62, 4, NULL, '[]', 0, '2020-06-23 10:14:55', '2020-06-23 10:14:55', '2021-06-23 05:14:55'),
+('dfc1d425f86b2636303ab8b4fb06d6419a8a24aff8a3b465c52441df32f575a2615eff512c470df0', 62, 4, NULL, '[]', 0, '2020-06-23 10:25:27', '2020-06-23 10:25:27', '2021-06-23 05:25:27');
 
 -- --------------------------------------------------------
 
@@ -220,10 +243,10 @@ CREATE TABLE `oauth_clients` (
 --
 
 INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `provider`, `redirect`, `personal_access_client`, `password_client`, `revoked`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Laravel Personal Access Client', '8XNdBqL2TqmGRWSrNoAv4qICiWkbnUTHCxjJjmqT', NULL, 'http://localhost', 1, 0, 0, '2020-06-03 08:36:40', '2020-06-03 08:36:40'),
-(2, NULL, 'Laravel Password Grant Client', '8vV97PuEdRrhq8hwQC0Q1ZE6L5qEtU2z9xxnwfqX', 'users', 'http://localhost', 0, 1, 0, '2020-06-03 08:36:40', '2020-06-03 08:36:40'),
-(3, NULL, 'Laravel Personal Access Client', 'KNbD5kmbN1L2ayH2eYXdynLEoW8mbd3MTnBbC8Ay', NULL, 'http://localhost', 1, 0, 0, '2020-06-03 08:37:03', '2020-06-03 08:37:03'),
-(4, NULL, 'Laravel Password Grant Client', '1R38k53iJms8jTNwP5cX4KgwkTwCbbnELKHsqaRU', 'users', 'http://localhost', 0, 1, 0, '2020-06-03 08:37:03', '2020-06-03 08:37:03');
+(1, NULL, 'Laravel Personal Access Client', 'TSjl3H5F4eCDHWrqvrVeYPkRjSJnlByPbSVS5Ew7', NULL, 'http://localhost', 1, 0, 0, '2020-06-23 09:44:49', '2020-06-23 09:44:49'),
+(2, NULL, 'Laravel Password Grant Client', 'd5bMMFyG9cTUHWLXzWztQj5dwhSAQlyHj54WuUlB', 'users', 'http://localhost', 0, 1, 0, '2020-06-23 09:44:49', '2020-06-23 09:44:49'),
+(3, NULL, 'Laravel Personal Access Client', 'A7UkSJjGW9Pe7C0ifhcsHFIEUF44WpRomB7JjD1d', NULL, 'http://localhost', 1, 0, 0, '2020-06-23 09:45:16', '2020-06-23 09:45:16'),
+(4, NULL, 'Laravel Password Grant Client', 'yUxdxphz9LKqlxDLmbPRIJAwGiDEM2mJVoIor6TF', 'users', 'http://localhost', 0, 1, 0, '2020-06-23 09:45:16', '2020-06-23 09:45:16');
 
 -- --------------------------------------------------------
 
@@ -243,8 +266,8 @@ CREATE TABLE `oauth_personal_access_clients` (
 --
 
 INSERT INTO `oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `updated_at`) VALUES
-(1, 1, '2020-06-03 08:36:40', '2020-06-03 08:36:40'),
-(2, 3, '2020-06-03 08:37:03', '2020-06-03 08:37:03');
+(1, 1, '2020-06-23 09:44:49', '2020-06-23 09:44:49'),
+(2, 3, '2020-06-23 09:45:16', '2020-06-23 09:45:16');
 
 -- --------------------------------------------------------
 
@@ -264,15 +287,16 @@ CREATE TABLE `oauth_refresh_tokens` (
 --
 
 INSERT INTO `oauth_refresh_tokens` (`id`, `access_token_id`, `revoked`, `expires_at`) VALUES
-('0b77768856a71f08047cfe47b71c2a21708d704f93221b3d4a9da735bb34af859093d6fce8e9ec6a', '503874de359ada9d75e88c72d9c933486bde7546cdab114536c2ab57ea7d93e68b4e3a248b98f30f', 0, '2021-06-03 04:39:46'),
-('137b47732d31274b0fa6445bf5bbb4696bc10f3cb1a83a617d7e1d64c6e968e29e9c19a0522053cf', '68779c207e43b686d4773da04d0c413ab4f115e816ba83f2a4dea00716b45108f76b4d53d9756fdb', 0, '2021-06-03 04:34:47'),
-('431a4f11c0e098e0be05ecfe2c6ba127bd5758ed0c9110e02b6e9589c58fb5b519af36d205e6c815', '20399b32df9c9db2df1317df67ea5b147b1cd913f1365854aedb88431cb7ba8fec987ecf8e20a874', 0, '2021-06-03 21:34:19'),
-('722fc334345d814cb74e0ae3ac89696f89c4178fec7b11a223371d0e34d84ebd7f6cb7ccfc4ea55b', 'ee5dc0877de770005ed604e8d82a43923d2e6ec890b61675c0467d6dcf8c71e27a17bd271db477f0', 0, '2021-06-03 04:32:46'),
-('91739cb2167ecb218b649719a8d5d04af1466c447d6ce0dce274d6fc0390256806ff1c52b03cb25c', 'db1b5a3650e1753c4645ba9bc475eb6e501a4eb3ac6a9d1b05e78d9b27cd2ab3d6a9a01a435a7c30', 0, '2021-06-03 13:45:36'),
-('b847fb3776366492623dfbff7bff708af9fe26d2ed3b26c29c4d7c9225b68f88bb0b486bb340e3ba', 'c0be0bda527f1c19c7641a26a884c668617226f4fa394cc4ef92f894c26f1497e72d592d63551da4', 0, '2021-06-03 04:15:17'),
-('c79cd1f19f4df3841c84330f75d11badee6816d457eba5011222a9faa1e36e09526a8914d1b164bf', 'f2d970d9902fe2cf0b4927d96d4b82430b6ffadfe1acfc6cb76da4ed12598bbe77d9d38ba101b3ef', 0, '2021-06-03 13:43:55'),
-('ecaefe3d602b321dd19954830e448430a7643930e03b9bf308f6b919b391c4440729bc2a50d671da', 'b696fdbafd83d764d2e7944a0067c752a0624603219775c0441a6bde742ab83fdec5a0178e412b6f', 0, '2021-06-03 20:55:01'),
-('f69da010f055742d0b0be28aa0a15fa06dd6de5119ba2aabca3bda947c3ab94b17246239c2c024c3', '029c8ab3a650a8aca4dac7d91ed90c9648836f0d249bf42f997572023e5d7fc716ef4e26c619e00a', 0, '2021-06-03 13:46:29');
+('17a1ccd6ae3b71625a146bbde0a39d09bf52b992b7e68398a981c1456daace5975823e24af233698', '8e754dc2bc52029e9b88f75d2ebeefce1d4af4028d6a9354ce02d0f5a820ed655e3bb830540944a0', 0, '2021-06-23 05:23:37'),
+('4c9c83c3e38438eba311bffea49f55178cd6906a32096459a3f0aa5c1057d2bc3000ff6d4a716ea6', '8d55b484d18e895a84724ff1af7a3c29cbc3f2873006710f19670819b4ee4d79742eed66f8a45463', 0, '2021-06-23 05:14:26'),
+('5e5e75b6026996c20049fd2f74465b12d72bcaf5bfaf9c2e5e9444c4e417de21ca7d5fb496cc9e05', 'dfc1d425f86b2636303ab8b4fb06d6419a8a24aff8a3b465c52441df32f575a2615eff512c470df0', 0, '2021-06-23 05:25:27'),
+('750f14a89d37e15c95b363fe9796e703f1d0d3c89b3f4d2a57bafbec5f97e91a6d714c589ef5d432', '0639d112a81767370be2ad0d049cd0a6b6a4999f1301267e2576e9204d6723a6259d4cf4d141dbbf', 0, '2021-06-23 05:04:30'),
+('76285415cfeead7a51fdc1e619545428e166d7e50d577df339a6907d6e51326bee251d0fa02fb6da', '5b114cb9c27818913e1e4b64ecd3022c73a9fa7792f97ee3417470cb9921334801eae1d1fbb11df1', 0, '2021-06-23 18:10:05'),
+('7e2855176871d3191b8767b843652ba5290d5174f4b436da54ab5433b2734914a8b0d2705ebddf53', 'b26967d547aaf9642478ddd6500bbbccd967e263f3a694d0c4d04cfb20c160151e04b13f6599e303', 0, '2021-06-23 17:30:00'),
+('d92636e98cb4033180a5a279a9d173aca7f17e5c49fb2471fb46c53d133a38469008f1a329d1fd6b', '7b140d0759d61bae46687d2f15735ef7b8c9778a83bfb849b72e5bc4deb70d26f3ae0024a1c9f3b9', 0, '2021-06-23 05:09:34'),
+('f587541549a5c0ca17bdee5a81ca7307e40aaf7b75a61c8b94d68fc1d8a729dd2e1f49d28170fa36', 'ce733991ee9ae0fdee8fc05194871cd04a689e14837b49dc11258f4f59cce644909270c4c182e881', 0, '2021-06-23 05:19:37'),
+('f8939da41c28107a394f172262cddcaf9d9da017d99ddd2213fe375cad572006b323d80bdaf06e20', 'dcd3f98decf38139c94146c723e6a4f99268694c4e4267b56399174b1e922c88fe350c100a15172f', 0, '2021-06-23 05:14:55'),
+('fe29c57b6d1334d269bed963aee47940d46113095113e8fa2c8fa598cf88c7a8eed165ff61349f57', '9cc5bbe198a5dc1436a9d8218fd0308d6eac3c3f3f18e8cd9c26cf072440f0a2f12f9dd7658fc424', 0, '2021-06-23 05:13:01');
 
 -- --------------------------------------------------------
 
@@ -310,7 +334,9 @@ CREATE TABLE `tipo_aptos` (
 INSERT INTO `tipo_aptos` (`id`, `tipo_apto`, `cobro`, `vigencia`, `metros`, `unidad_id`, `created_at`, `updated_at`) VALUES
 (1, '78m', 160000.00, 30, 78, 3, '2019-09-07 22:59:43', '2019-09-08 03:59:43'),
 (2, '82M', 277000.00, 60, 82, 2, '2019-09-07 22:46:26', '2019-09-06 08:05:00'),
-(3, '80m', 180000.00, 30, 80, 3, '2019-09-08 04:00:31', '2019-09-08 04:00:31');
+(3, '80m', 180000.00, 30, 80, 3, '2019-09-08 04:00:31', '2019-09-08 04:00:31'),
+(4, 'casa100m', 200000.00, 30, 100, 7, '2020-06-18 13:11:30', '0000-00-00 00:00:00'),
+(5, 'casa150m', 300000.00, 30, 150, 7, '2020-06-18 13:11:30', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -346,6 +372,7 @@ CREATE TABLE `unidades` (
   `nombre` varchar(45) NOT NULL,
   `direccion` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
+  `nit` varchar(45) DEFAULT NULL,
   `admin_id` bigint(20) UNSIGNED NOT NULL,
   `active` tinyint(1) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -356,12 +383,13 @@ CREATE TABLE `unidades` (
 -- Volcado de datos para la tabla `unidades`
 --
 
-INSERT INTO `unidades` (`id`, `nombre`, `direccion`, `telefono`, `admin_id`, `active`, `created_at`, `updated_at`) VALUES
-(2, 'Guadalupe Real', 'cra 52A #1A-22', '322222222', 2, 1, '2020-05-18 16:56:43', '2019-08-18 22:20:14'),
-(3, 'Bosques de Cañaveralejo', 'Calle 1 #52-52', '333444555', 2, 1, '2020-05-18 16:56:49', '2019-08-18 22:20:57'),
-(4, 'Guadalajara', 'cll13 #15-55', '333555777', 2, 1, '2020-05-18 16:56:53', '2019-08-20 01:38:53'),
-(5, 'Unidad Santiago de Cali', 'cll 5 #45-20', '2223334445', 2, 1, '2020-05-18 16:56:58', '2019-08-23 19:04:50'),
-(6, 'Caramanta II', 'calle 1A #53B', '55555555', 2, 1, '2020-05-18 16:57:02', '0000-00-00 00:00:00');
+INSERT INTO `unidades` (`id`, `nombre`, `direccion`, `telefono`, `nit`, `admin_id`, `active`, `created_at`, `updated_at`) VALUES
+(2, 'Guadalupe Real', 'cra 52A #1A-22', '322222222', NULL, 2, 1, '2020-05-18 16:56:43', '2019-08-18 22:20:14'),
+(3, 'Bosques de Cañaveralejo', 'Calle 1 #52-52', '333444555', NULL, 60, 1, '2020-06-23 18:02:19', '2019-08-18 22:20:57'),
+(4, 'Guadalajara', 'cll13 #15-55', '333555777', NULL, 2, 1, '2020-05-18 16:56:53', '2019-08-20 01:38:53'),
+(5, 'Unidad Santiago de Cali', 'cll 5 #45-20', '2223334445', NULL, 2, 1, '2020-05-18 16:56:58', '2019-08-23 19:04:50'),
+(6, 'Caramanta II', 'calle 1A #53B', '55555555', NULL, 2, 1, '2020-05-18 16:57:02', '0000-00-00 00:00:00'),
+(7, 'nueva unidad', 'call23', '456789', '789654321', 1, 1, '2020-06-18 02:46:39', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -371,9 +399,7 @@ INSERT INTO `unidades` (`id`, `nombre`, `direccion`, `telefono`, `admin_id`, `ac
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `user_name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nombre` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `apellido` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dni` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `telefono` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -384,24 +410,28 @@ CREATE TABLE `users` (
   `unidade_id` int(11) DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `provider` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `provider_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `avatar` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `user_name`, `nombre`, `apellido`, `email`, `dni`, `telefono`, `email_verified_at`, `password`, `active`, `tipo_usuario_id`, `unidade_id`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'santi', 'Santiago', 'Lopera', 'santiagoloperam@gmail.com', '1234567', '1234567', NULL, '123456', 1, 1, NULL, NULL, NULL, NULL),
-(2, 'migue', 'Luis Miguel', 'Paz', 'luismiguelpaz96@gmail.com', '123456789', '123456789', NULL, '123456', 0, 2, NULL, NULL, NULL, NULL),
-(11, 'ani', 'Ana', 'paz', 'ana@gmail.com', '123456789', '55555555', NULL, '$2y$10$pbfxAMskPKwW9KbeO/iqLeDzbIiaYGRaMeITrQQ5KKrQTyMMnOJVi', 1, 3, NULL, NULL, '2020-05-31 22:12:20', '2020-05-31 22:12:20'),
-(12, 'pepe', 'PEPE', 'MARTINEZ', 'pepe@gmail.com', '123444444', '7777777', NULL, '$2y$10$BMUllT2wgJO6DaeGAdFr8.LaeTzQDc0k/KEBPB5hHIKRYzyYzxcdq', 1, 3, NULL, NULL, '2020-05-31 22:16:03', '2020-05-31 22:16:03'),
-(15, 'pepe2', 'PEPE2', 'stheth', 'pesthsdf@gmail.com', '123444444', '7777777', NULL, '$2y$10$OVJOaXzokr7fmz9JqHChYORU2bj7CvjavA5JSmj7gHqKn7spJUdIe', 1, 3, NULL, NULL, '2020-06-02 08:31:19', '2020-06-02 08:31:19'),
-(16, 'juan123', 'juan', 'lopez', 'jl@gmail.com', '123444444', '7777777', NULL, '$2y$10$7sn/mWoZcvieXImwkI5aduMSnAkruQr6XLlI/TLWDcCOMB0VjowWy', 1, 3, NULL, NULL, '2020-06-02 09:39:33', '2020-06-02 09:39:33'),
-(18, 'juan1234', 'juan', 'lopez', 'jl4@gmail.com', '123444444', '7777777', NULL, '$2y$10$hoAsiwNq7U9ISmIQYkrVZunt4/5nneVtAXA8Sij2Zfhw9kww6p5qS', 1, 3, NULL, NULL, '2020-06-02 09:48:05', '2020-06-02 09:48:05'),
-(19, 'juan12345', 'juan', 'lopez', 'jl45@gmail.com', '123444444', '7777777', NULL, '$2y$10$5Q1LYw/mVyxuJfaUnmBCk.x8V7rjTM6k.vDfZ0UlDkamKPvg7tO9y', 1, 3, NULL, NULL, '2020-06-02 20:20:00', '2020-06-02 20:20:00'),
-(20, 'juan123456', 'juan', 'lopez', 'jl456@gmail.com', '123444444', '7777777', NULL, '$2y$10$VfesVGfDn.TSxF3TyY7bJOQ1RFolmhAqK5UVXj8d3Lu/4UzkhZ7N2', 1, 3, NULL, NULL, '2020-06-03 08:13:13', '2020-06-03 08:13:13'),
-(22, '', 'Jose Fonseca', NULL, 'myemail@email.com', NULL, NULL, NULL, '$2y$10$d5f4ggTn1KY63imWlRlCweXRTzYhAk2NglsGjeJoBWDFJq/hlnvtC', 1, NULL, NULL, NULL, '2020-06-03 09:30:07', '2020-06-03 09:30:07');
+INSERT INTO `users` (`id`, `name`, `email`, `dni`, `telefono`, `email_verified_at`, `password`, `active`, `tipo_usuario_id`, `unidade_id`, `remember_token`, `created_at`, `updated_at`, `provider`, `provider_id`, `avatar`) VALUES
+(1, 'Santiago', 'santiagoloperam@gmail.com', '1234567', '1234567', NULL, '123456', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 'Luis Miguel', 'luismiguelpaz96@gmail.com', '123456789', '123456789', NULL, '123456', 0, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(23, NULL, 'myemail@email.com', NULL, NULL, NULL, '$2y$10$zwE.AAXyf53Ti/BjVqFuNOWFsey9U.a17CwEQvMxK0fuhdbnqb4Fq', 1, NULL, NULL, NULL, '2020-06-07 05:56:21', '2020-06-07 05:56:21', NULL, NULL, NULL),
+(54, 'Santii', 'santi@gmail.com', '123456789', '123456789', NULL, '$2y$10$s.kbueu4dGSvZFQIiwbO4ew2RFEFn7Xb8kpTVGtExCYoSUpbI5lzq', 1, 1, NULL, NULL, '2020-06-13 23:16:49', '2020-06-13 23:16:49', NULL, NULL, NULL),
+(55, NULL, 'amaya1@gmail.com', NULL, NULL, NULL, '$2y$10$otdJ7zuN0HpCIhc3G6wSw.AgRZyeeIaYUmWDT7ZLUd4BwQ9Jzgw4K', 1, NULL, NULL, NULL, '2020-06-14 01:31:43', '2020-06-14 01:31:43', NULL, NULL, NULL),
+(57, 'Santii1', 'santi1@gmail.com', '123456789', '123456789', NULL, '$2y$10$x9SOTNgjIvGVTRXJkj2rLODKG5.6ttpzoP9I8Vz12LHMcShBRcSD2', 1, 1, NULL, NULL, '2020-06-14 01:34:17', '2020-06-14 01:34:17', NULL, NULL, NULL),
+(58, 'Santii1', 'santi2@gmail.com', '123456789', '123456789', NULL, '$2y$10$jO8eMibZjtiPlAXgELukPuFwO9V61gHnR9p9tXjFr4bTb1GRqt8C2', 1, 1, NULL, NULL, '2020-06-14 01:41:17', '2020-06-14 01:41:17', NULL, NULL, NULL),
+(59, 'Santi3', 'santi3@gmail.com', '123456789', '123456789', NULL, '$2y$10$JLKof23YBXp7yAbRy3QP3uHptmDI1Oysmut1DegrYq652TLeFMyKm', 1, 1, NULL, NULL, '2020-06-19 17:50:15', '2020-06-19 17:50:15', NULL, NULL, NULL),
+(60, 'Santi Dev', 'santideveloper@email.com', NULL, NULL, NULL, '$2y$10$kw56ytRqSmXF5oCk7h28J.0hA/.KoG1eZ3d3r5gaLwqOsq3PLBq5.', 1, NULL, NULL, NULL, '2020-06-23 10:00:00', '2020-06-23 10:00:00', NULL, NULL, NULL),
+(62, 'Santi Dev11', 'santideveloper11@email.com', NULL, NULL, NULL, '$2y$10$mtG0/6iE88DdjeeLGQ9g/u7qSOjeoPZ3qQgNznqBrhUfrHbZa01JS', 1, NULL, NULL, NULL, '2020-06-23 10:13:01', '2020-06-23 10:13:01', NULL, NULL, NULL),
+(63, 'santi_dev4', 'santi4@gmail.com', '123456789', '123456789', NULL, '$2y$10$LWh2S5ns6pQZQOOjCEdnnOxyWu5vNM9j1oUUBgrtPZ3LWbnm8CrPm', 1, NULL, NULL, NULL, '2020-06-23 22:49:08', '2020-06-23 22:49:08', NULL, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -424,6 +454,14 @@ ALTER TABLE `aptos`
 ALTER TABLE `bloques`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_unidad` (`unidad_id`);
+
+--
+-- Indices de la tabla `facturas`
+--
+ALTER TABLE `facturas`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `numero` (`numero`),
+  ADD KEY `apto_id` (`apto_id`);
 
 --
 -- Indices de la tabla `failed_jobs`
@@ -502,8 +540,7 @@ ALTER TABLE `unidades`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`),
-  ADD UNIQUE KEY `user_name` (`user_name`);
+  ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -513,13 +550,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `aptos`
 --
 ALTER TABLE `aptos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `bloques`
 --
 ALTER TABLE `bloques`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `failed_jobs`
@@ -531,7 +568,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `oauth_clients`
@@ -549,7 +586,7 @@ ALTER TABLE `oauth_personal_access_clients`
 -- AUTO_INCREMENT de la tabla `tipo_aptos`
 --
 ALTER TABLE `tipo_aptos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_usuarios`
@@ -561,13 +598,13 @@ ALTER TABLE `tipo_usuarios`
 -- AUTO_INCREMENT de la tabla `unidades`
 --
 ALTER TABLE `unidades`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- Restricciones para tablas volcadas
