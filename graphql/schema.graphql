@@ -20,7 +20,7 @@ type Query {
      
   unidades: [Unidade!]! @paginate(defaultCount: 1000)
   unidade(id: ID @eq): Unidade @find 
-  unidadeByAdmin(admin_id: ID! @eq): Unidade @find 
+  unidadeByAdmin(admin_id: ID! @eq): Unidade @find @guard(with: ["api"])
 
   bloques: [Bloque!]! @paginate(defaultCount: 100000)
   bloque(id: ID @eq): Bloque @find
