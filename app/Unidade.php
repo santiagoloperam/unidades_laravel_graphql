@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\User;
 use App\Bloque;
 use App\Apto;
+use App\TipoApto;
 
 class Unidade extends Model
 {
@@ -29,5 +30,9 @@ class Unidade extends Model
     public function aptos(): HasMany
     {
        return $this->hasMany(Apto::class);
+    }
+    public function tipo_aptos(): HasMany
+    {
+       return $this->hasMany(TipoApto::class);
     }
 }

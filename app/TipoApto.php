@@ -9,11 +9,11 @@ use App\Unidade;
 class TipoApto extends Model
 {
     protected $fillable = [
-        'tipo_apto','cobro','vigencia','id_unidad'
+        'tipo_apto','cobro','vigencia','metros','unidad_id'
     ];
 
-    public function unidad()
+    public function unidad(): BelongsTo
     {
-       return $this->belongTo(Unidade::class);
+       return $this->belongsTo(Unidade::class);
     }
 }

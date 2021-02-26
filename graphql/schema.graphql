@@ -10,29 +10,33 @@ scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Da
 type Mutation
 
 type Query {
-  users: [User!]! @middleware(checks: ["auth:api"]) @paginate(defaultCount: 100000)
+  users: [User!]! @middleware(checks: ["auth:api"]) @paginate(defaultCount: 100000) @guard(with: ["api"])
   #users: [User!]! @paginate(defaultCount: 100000)
-  user(id: ID @eq): User @find
+  user(id: ID @eq): User @find @guard(with: ["api"])
   me: User! @auth
 
   tipoUsuarios: [TipoUsuario!]! @paginate(defaultCount: 10)
   tipoUsuario (id: ID @eq): TipoUsuario @find
      
   unidades: [Unidade!]! @paginate(defaultCount: 1000)
-  unidade(id: ID @eq): Unidade @find 
-  unidadeByAdmin(admin_id: ID! @eq): Unidade @find @guard(with: ["api"])
+  unidade(id: ID @eq): Unidade @find @guard(with: ["api"])
+  unidadesByAdmin(admin_id: ID! @eq): Unidade @find @guard(with: ["api"])
+ #unidadesByAdmin2(admin_id: ID! @eq): [Unidade] @find @inject(context: "user.id", name: "admin_id") @guard(with: ["api"])
 
-  bloques: [Bloque!]! @paginate(defaultCount: 100000)
-  bloque(id: ID @eq): Bloque @find
+  bloques: [Bloque!]! @paginate(defaultCount: 100000) @guard(with: ["api"])
+  bloque(id: ID @eq): Bloque @find @guard(with: ["api"])
       
-  aptos: [Apto!]! @paginate(defaultCount: 1000000)
-  apto(id: ID @eq): Apto @find
+  aptos: [Apto!]! @paginate(defaultCount: 1000000) @guard(with: ["api"])
+  apto(id: ID @eq): Apto @find @guard(with: ["api"])
       
-  tipoAptos: [TipoApto!]! @paginate(defaultCount: 10000)
-  tipoApto(id: ID @eq): TipoApto @find
+  tipoAptos: [TipoApto!]! @paginate(defaultCount: 10000) @guard(with: ["api"])
+  tipoApto(id: ID @eq): TipoApto @find @guard(with: ["api"])
 
-  facturas: [Factura!] @paginate(defaultCount: 1000000)
-  factura(id: ID @eq): Factura @find
+  facturas: [Factura!] @paginate(defaultCount: 1000000) @guard(with: ["api"])
+  factura(id: ID @eq): Factura @find @guard(with: ["api"])
+
+  pagos: [Pago!] @paginate(defaultCount: 1000000) @guard(with: ["api"])
+  pago(id: ID @eq): Pago @find @guard(with: ["api"])
 }
 
 type User {
@@ -92,7 +96,8 @@ type Unidade {
     tipoapto: TipoApto! @belongsTo(relation: "tipoapto")
     propietario: User! @belongsTo(relation: "propietario")
     arrendatario: User @belongsTo(relation: "arrendatario")
-    facturas: [Factura!] @hasMany(relation: "facturas")
+    facturas: [Factura] @hasMany(relation: "facturas")
+    pagos: [Pago] @hasMany(relation: "pagos")
   }
 
    type TipoApto {
@@ -106,13 +111,25 @@ type Unidade {
     aptos: [Apto!] @hasMany(relation: "aptos")
   }
 
-   type Factura {
+  type Pago {
     id:ID!
-    numero: String
-    saldo: Float
-    fecha: String
-    pagada: Boolean
+    factura_id: ID
     apto_id: ID!
+    valor: Float!
+    modo: String
+    fecha_pago: String
+    estado: Boolean
+    apto: Apto! @belongsTo(relation: "apto")
+   } 
+
+   type Factura { 
+    id:ID!
+    consecutivo: Int, 
+    monto_total_fact: Float, 
+    mes_ano: String, 
+    nota: String, 
+    apto_id: ID!, 
+    estado: Boolean
     apto: Apto! @belongsTo(relation: "apto")
    } 
 
@@ -127,7 +144,7 @@ type Unidade {
     	dni: String, 
     	telefono: String,  
     	active: Boolean, 
-    	tipo_usuario_id: ID) : User @update
+    	tipo_usuario_id: ID) : User @update @guard(with: ["api"])
 
     # createUser(
     #     name: String!,  
@@ -138,15 +155,15 @@ type Unidade {
     # 	active: Boolean!, 
     # 	tipo_usuario_id: ID!) : User! @create
 
-    deleteUser(id: ID!) : User! @delete
+    deleteUser(id: ID!) : User! @delete @guard(with: ["api"])
 
     updateTipoUsuario(
     	id: ID!, 
-     	tipo_usuarios: String) : TipoUsuario @update
+     	tipo_usuarios: String) : TipoUsuario @update @guard(with: ["api"])
 
-    createTipoUsuario(tipo_usuarios: String) : TipoUsuario! @create
+    createTipoUsuario(tipo_usuarios: String) : TipoUsuario! @create @guard(with: ["api"])
 
-    deleteTipoUsuario(id: ID!) : TipoUsuario! @delete
+    deleteTipoUsuario(id: ID!) : TipoUsuario! @delete @guard(with: ["api"])
 
 
     updateUnidad(
@@ -155,27 +172,27 @@ type Unidade {
     	direccion: String, 
     	telefono: String, 
         nit: String,
-    	active: Boolean) : Unidade! @update @inject(context:"user.id",name:"admin_id") @guard(with: ["api"])
+    	active: Boolean) : Unidade! @update @inject(context:"user.id",name:"admin_id") @guard(with: ["api"]) 
 
     createUnidad(
     	nombre: String, 
     	direccion: String, 
     	telefono: String,
         nit: String, 
-    	active: Boolean) : Unidade! @create @inject(context:"user.id",name:"admin_id") @guard(with: ["api"])
+    	active: Boolean) : Unidade! @create @inject(context:"user.id",name:"admin_id") @guard(with: ["api"]) 
 
-    deleteUnidad(id: ID!) : Unidade! @delete
+    deleteUnidad(id: ID!) : Unidade! @delete @guard(with: ["api"])
     
     updateBloque(
     	id: ID!, 
     	nombre: String, 
-    	unidad_id: Int) : Bloque! @update
+    	unidad_id: Int) : Bloque! @update @guard(with: ["api"])
 
     createBloque(
     	nombre: String, 
-    	unidad_id: Int) : Bloque! @create
+    	unidad_id: Int) : Bloque! @create @guard(with: ["api"])
 
-    deleteBloque(id: ID!) : Bloque! @delete
+    deleteBloque(id: ID!) : Bloque! @delete @guard(with: ["api"])
 
     updateApto(
     	id: ID!, 
@@ -184,7 +201,7 @@ type Unidade {
     	bloque_id: Int, 
     	tipo_apto_id: Int, 
     	propietario_id: Int,  
-    	arrendatario_id: Int) : Apto! @update
+    	arrendatario_id: Int) : Apto! @update @guard(with: ["api"])
 
     createApto(
     	nomenclatura: String, 
@@ -192,9 +209,9 @@ type Unidade {
     	bloque_id: Int, 
     	tipo_apto_id: Int, 
     	propietario_id: Int,  
-    	arrendatario_id: Int) : Apto! @create
+    	arrendatario_id: Int) : Apto! @create @guard(with: ["api"])
 
-    deleteApto(id: ID!) : Apto! @delete
+    deleteApto(id: ID!) : Apto! @delete @guard(with: ["api"])
 
     
     updateTipoApto(
@@ -203,34 +220,57 @@ type Unidade {
     	cobro: Float, 
     	vigencia: Int, 
     	metros: Int, 
-    	unidad_id: Int) : TipoApto! @update
+    	unidad_id: Int) : TipoApto! @update @guard(with: ["api"])
 
     createTipoApto(
     	tipo_apto: String, 
     	cobro: Float, 
     	vigencia: Int, 
     	metros: Int, 
-    	unidad_id: Int) : TipoApto! @create
+    	unidad_id: ID!) : TipoApto! @create @guard(with: ["api"])
 
-    deleteTipoApto(id: ID!) : TipoApto! @delete
+    deleteTipoApto(id: ID!) : TipoApto! @delete @guard(with: ["api"])
 
 
-    updateFactura(
+    updateFactura( 
         id: ID!, 
-        numero: String, 
-        saldo: Float, 
-        fecha: Int, 
+        consecutivo: Int, 
+        monto_total_fact: Float, 
+        mes_ano: String, 
+        nota: String, 
         apto_id: ID!, 
-        pagada: Boolean) : Factura! @update
+        estado: Boolean) : Factura! @update @guard(with: ["api"])
 
     createFactura(
-        numero: String, 
-        saldo: Float, 
-        fecha: Int, 
+        consecutivo: Int, 
+        monto_total_fact: Float, 
+        mes_ano: String, 
+        nota: String, 
         apto_id: ID!, 
-        pagada: Boolean) : Factura! @create
+        estado: Boolean) : Factura! @create @guard(with: ["api"])
 
-    deleteFactura(id: ID!) : Factura! @delete
+    deleteFactura(id: ID!) : Factura! @delete @guard(with: ["api"])
+
+
+     updatePago(
+        id: ID!,
+        factura_id: ID,  
+        apto_id: ID!, 
+        valor: Float, 
+        modo: String, 
+        fecha_pago: String, 
+        estado: Boolean) : Pago! @update @guard(with: ["api"])
+
+    createPago(        
+        factura_id: ID, 
+        apto_id: ID!, 
+        valor: Float!, 
+        modo: String, 
+        fecha_pago: String!, 
+        estado: Boolean) : Pago! @create @guard(with: ["api"])
+    #Unidade! @update @inject(context:"user.id",name:"admin_id") @guard(with: ["api"]) 
+
+    deletePago(id: ID!) : Pago! @delete @guard(with: ["api"])
 
 
 }

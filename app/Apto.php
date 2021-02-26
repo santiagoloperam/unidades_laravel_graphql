@@ -12,6 +12,7 @@ use App\TipoApto;
 use App\User;
 use App\Bloque;
 use App\Apto;
+use App\Pago;
 
 class Apto extends Model
 {
@@ -50,6 +51,11 @@ class Apto extends Model
     public function facturas():HasMany
     {
        return $this->hasMany(Factura::class,'apto_id');
+    }
+
+    public function pagos():HasMany
+    {
+       return $this->hasMany(Pago::class,'apto_id');
     }
     
 }
